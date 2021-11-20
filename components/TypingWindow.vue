@@ -94,8 +94,8 @@ export default {
 
       if (e.key == expectedKey) {
         this.correctLetters++;
-        letter.className = `${letter.className} correct`;
-      } else letter.className = `${letter.className} incorrect`;
+        letter.classList.add("correct");
+      } else letter.classList.add("incorrect");
 
       this.currentLetterIndex++;
       this.moveCaret();
