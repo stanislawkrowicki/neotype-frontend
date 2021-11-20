@@ -1,6 +1,15 @@
 <template>
   <div class="main-window" @click="startTest">
-    <div class="words-container" ref="words-container">
+    <transition name="fade">
+      <div v-show="!inProgress" class="not-focused-message">
+        <p>Click anywhere to focus...</p>
+      </div>
+    </transition>
+    <div
+      class="words-container"
+      :class="inProgress ? '' : 'blur'"
+      ref="words-container"
+    >
       <input
         type="text"
         id="words-input"
@@ -43,6 +52,7 @@ export default {
       currentLetterIndex: 0,
       correctLetters: 0,
       displayCaret: true,
+      inProgress: false,
     };
   },
 
@@ -50,6 +60,7 @@ export default {
     startTest() {
       this.$refs["typing-input"].focus();
       this.moveCaret();
+      this.inProgress = true;
     },
 
     moveCaret() {
@@ -115,6 +126,29 @@ $font-size: 4em;
   padding: 0.4em;
 }
 
+.words-container {
+  &.blur {
+    filter: blur(0.3em);
+  }
+  transition: blur 0.3s ease;
+}
+
+.not-focused-message {
+  position: absolute;
+  display: table;
+  height: 30em;
+  width: 80em;
+  p {
+    display: table-cell;
+    text-align: center;
+    width: 100%;
+    vertical-align: middle;
+    color: $secondary-color;
+    font-size: 8em;
+    opacity: 0.8;
+  }
+}
+
 .word {
   display: inline-block;
   margin-right: 1em;
@@ -164,5 +198,16 @@ $font-size: 4em;
   position: fixed;
   cursor: default;
   pointer-events: none;
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
