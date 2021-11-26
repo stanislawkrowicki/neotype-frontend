@@ -141,6 +141,18 @@ export default {
 
     keyPressed(e) {
       if (e.code == "Space") {
+        let currentWord =
+          this.$refs["words-container"].querySelectorAll(".word")[
+            this.currentWordIndex
+          ];
+        currentWord.querySelectorAll(".letter").forEach((letter) => {
+          if (
+            letter.classList.contains("correct") ||
+            letter.classList.contains("incorrect")
+          )
+            return;
+          letter.classList.add("incorrect");
+        });
         this.currentWordIndex++;
         this.currentLetterIndex = 0;
         this.moveCaret();
