@@ -9,7 +9,27 @@
       class="words-container"
       :class="inProgress ? '' : 'blur'"
       ref="words-container"
+      @click="startTest"
     >
+      <div class="timer">
+        <div
+          v-for="time in timerOptions"
+          :key="time"
+          class="timer-option-wrapper"
+        >
+          <input
+            type="radio"
+            name="time"
+            v-bind:id="`time-${time}`"
+            class="timer-option"
+            :value="time"
+            ref="timer-option"
+            :checked="time == timerOptions[defaultTimerSelectionIndex]"
+            @click="restartTest"
+          />
+          <label v-bind:for="`time-${time}`">{{ time }}</label>
+        </div>
+      </div>
       <input
         type="text"
         id="words-input"
@@ -20,8 +40,8 @@
         autocorrect="off"
       />
       <div v-if="displayCaret" ref="caret" id="caret"></div>
-      <div v-for="word in words" :key="word" ref="words" class="word">
-        <div v-for="letter in word" :key="letter" ref="letters" class="letter">
+      <div v-for="word in words" :key="word" class="word">
+        <div v-for="letter in word" :key="letter + word" class="letter">
           <span>{{ letter }}</span>
         </div>
         <div class="fake-letter"></div>
@@ -48,6 +68,8 @@ export default {
         "height",
         "dependency",
       ],
+      timerOptions: [15, 30, 60],
+      defaultTimerSelectionIndex: 1, // defaults to the second timerOption
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctLetters: 0,
@@ -58,20 +80,54 @@ export default {
 
   methods: {
     startTest() {
+      if (this.inProgress) return;
       this.$refs["typing-input"].focus();
-      this.moveCaret();
-      this.inProgress = true;
+      this.loadWords();
+      this.$nextTick(() => {
+        this.moveCaret();
+        this.inProgress = true;
+        const selectedTime = this.$refs["timer-option"].find(
+          (input) => input.checked
+        ).value;
+        if (this.endTimeout) clearTimeout(this.endTimeout);
+        this.endTimeout = setTimeout(this.endTest, selectedTime * 1000);
+      });
+    },
+
+    endTest() {
+      alert("finished!");
+    },
+
+    loadWords() {
+      this.words.sort(() => 0.5 - Math.random()); //I know this is bad, it's just a placeholder
+    },
+
+    restartTest() {
+      if (this.endTimeout) clearTimeout(this.endTimeout);
+      this.currentWordIndex = 0;
+      this.currentLetterIndex = 0;
+      this.correctLetters = 0;
+      this.inProgress = false;
+      this.startTest();
     },
 
     moveCaret() {
       let caret = this.$refs.caret;
 
-      if (!caret) return;
+      if (!caret) {
+        return;
+      }
 
       let caretParent = caret.parentNode;
-      if (!caretParent) return;
+      if (!caretParent) {
+        return;
+      }
 
-      let currentWord = this.$refs.words[this.currentWordIndex];
+      let currentWord =
+        this.$refs["words-container"].querySelectorAll(".word")[
+          this.currentWordIndex
+        ];
+
       let currentLetter =
         currentWord.querySelectorAll(".letter")[this.currentLetterIndex];
 
@@ -95,7 +151,11 @@ export default {
         return;
       }
 
-      let word = this.$refs.words[this.currentWordIndex];
+      let word =
+        this.$refs["words-container"].querySelectorAll(".word")[
+          this.currentWordIndex
+        ];
+
       if (word === undefined) return;
 
       let letter = word.querySelectorAll(".letter")[this.currentLetterIndex];
@@ -209,5 +269,25 @@ $font-size: 4em;
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.timer {
+  float: right;
+}
+
+.timer-option-wrapper {
+  display: inline-block;
+  label {
+    font-family: "Shippori Antique", sans-serif;
+    color: $primary-color;
+    opacity: 0.8;
+  }
+  input.timer-option {
+    appearance: none;
+  }
+  input.timer-option:checked + label {
+    opacity: 1;
+    font-weight: bold;
+  }
 }
 </style>
