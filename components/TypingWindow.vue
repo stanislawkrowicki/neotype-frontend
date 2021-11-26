@@ -114,14 +114,10 @@ export default {
     moveCaret() {
       let caret = this.$refs.caret;
 
-      if (!caret) {
-        return;
-      }
+      if (!caret) return;
 
       let caretParent = caret.parentNode;
-      if (!caretParent) {
-        return;
-      }
+      if (!caretParent) return;
 
       let currentWord =
         this.$refs["words-container"].querySelectorAll(".word")[
