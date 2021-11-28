@@ -40,10 +40,10 @@
         autocorrect="off"
       />
       <div v-if="displayCaret" ref="caret" id="caret"></div>
-      <div v-for="word in words" :key="word.id" class="word">
+      <div v-for="word in words" :key="`${tryNumber}_${word.id}`" class="word">
         <div
           v-for="(letter, index) in word.word"
-          :key="`${word.id}_${index}`"
+          :key="`${tryNumber}_${word.id}_${index}`"
           class="letter"
         >
           <span>{{ letter }}</span>
@@ -65,6 +65,7 @@ export default {
       currentLetterIndex: 0,
       correctLetters: 0,
       wordsFromNewlineCounter: 0,
+      tryNumber: 0,
       displayCaret: true,
       inProgress: false,
     };
@@ -75,6 +76,7 @@ export default {
       this.$refs["typing-input"].focus();
       if (this.inProgress) return;
 
+      this.tryNumber++;
       this.loadWords();
       this.$nextTick(() => {
         this.moveCaret();
@@ -109,6 +111,8 @@ export default {
       wordsToLoad.sort(() => 0.5 - Math.random());
 
       let currentWordID = 0;
+
+      this.words = [];
 
       wordsToLoad.forEach((word) => {
         this.words.push({ word: word, id: currentWordID });
@@ -154,6 +158,7 @@ export default {
       this.currentWordIndex = 0;
       this.currentLetterIndex = 0;
       this.correctLetters = 0;
+      this.wordsFromNewlineCounter = 0;
       this.inProgress = false;
       this.startTest();
     },
@@ -185,6 +190,8 @@ export default {
         this.$refs["words-container"].querySelectorAll(".word")[
           this.currentWordIndex
         ];
+
+      if (!currentWord) return;
 
       let currentLetter =
         currentWord.querySelectorAll(".letter")[this.currentLetterIndex];
