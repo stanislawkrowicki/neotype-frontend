@@ -72,8 +72,9 @@ export default {
 
   methods: {
     startTest() {
-      if (this.inProgress) return;
       this.$refs["typing-input"].focus();
+      if (this.inProgress) return;
+
       this.loadWords();
       this.$nextTick(() => {
         this.moveCaret();
