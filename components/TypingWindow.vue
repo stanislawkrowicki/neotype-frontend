@@ -40,8 +40,12 @@
         autocorrect="off"
       />
       <div v-if="displayCaret" ref="caret" id="caret"></div>
-      <div v-for="word in words" :key="word" class="word">
-        <div v-for="letter in word" :key="letter + word" class="letter">
+      <div v-for="word in words" :key="word.id" class="word">
+        <div
+          v-for="(letter, index) in word.word"
+          :key="`${word.id}_${index}`"
+          class="letter"
+        >
           <span>{{ letter }}</span>
         </div>
         <div class="fake-letter"></div>
@@ -54,25 +58,13 @@
 export default {
   data() {
     return {
-      words: [
-        "age",
-        "eyes",
-        "wildblue",
-        "jingle",
-        "blues",
-        "californication",
-        "wet",
-        "sand",
-        "space",
-        "font",
-        "height",
-        "dependency",
-      ],
+      words: [],
       timerOptions: [15, 30, 60],
       defaultTimerSelectionIndex: 1, // defaults to the second timerOption
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctLetters: 0,
+      wordsFromNewlineCounter: 0,
       displayCaret: true,
       inProgress: false,
     };
@@ -99,7 +91,61 @@ export default {
     },
 
     loadWords() {
-      this.words.sort(() => 0.5 - Math.random()); //I know this is bad, it's just a placeholder
+      let wordsToLoad = [
+        "age",
+        "eyes",
+        "wildblue",
+        "jingle",
+        "blues",
+        "californication",
+        "wet",
+        "sand",
+        "space",
+        "font",
+        "height",
+        "dependency",
+      ];
+      wordsToLoad.sort(() => 0.5 - Math.random());
+
+      let currentWordID = 0;
+
+      wordsToLoad.forEach((word) => {
+        this.words.push({ word: word, id: currentWordID });
+        currentWordID++;
+      });
+    },
+
+    loadMoreWords() {
+      let wordsToLoad = [
+        "age",
+        "eyes",
+        "wildblue",
+        "jingle",
+        "blues",
+        "californication",
+        "wet",
+        "sand",
+        "space",
+        "font",
+        "height",
+        "dependency",
+      ];
+      wordsToLoad.sort(() => 0.5 - Math.random());
+
+      let lastWord = this.words[this.words.length - 1];
+      let currentWordID = 0;
+      if (lastWord.id) currentWordID = lastWord.id + 1;
+
+      wordsToLoad.forEach((word) => {
+        this.words.push({ word: word, id: currentWordID });
+        currentWordID++;
+      });
+    },
+
+    loadWordsIfNeeded() {
+      const THRESHOLD = 50; // words left
+      if (this.words.length - this.currentWordIndex <= THRESHOLD)
+        this.loadMoreWords();
     },
 
     restartTest() {
@@ -111,10 +157,25 @@ export default {
       this.startTest();
     },
 
+    updateTest() {
+      if (this.moveCaret()) {
+        this.words.splice(0, this.wordsFromNewlineCounter);
+        this.currentWordIndex -= this.wordsFromNewlineCounter;
+        this.wordsFromNewlineCounter = 0;
+      }
+
+      this.loadWordsIfNeeded();
+    },
+
+    /**
+     * Returns bool: did caret move to a new line
+     */
     moveCaret() {
       let caret = this.$refs.caret;
 
       if (!caret) return;
+
+      const caretHeight = caret.getBoundingClientRect().top;
 
       let caretParent = caret.parentNode;
       if (!caretParent) return;
@@ -137,6 +198,8 @@ export default {
       caretParent.removeChild(caret);
       currentLetter.appendChild(caret);
       this.displayCaret = true;
+
+      return caret.getBoundingClientRect().top != caretHeight;
     },
 
     keyPressed(e) {
@@ -155,7 +218,8 @@ export default {
         });
         this.currentWordIndex++;
         this.currentLetterIndex = 0;
-        this.moveCaret();
+        this.wordsFromNewlineCounter++;
+        this.updateTest();
         return;
       }
 
@@ -177,7 +241,7 @@ export default {
       } else letter.classList.add("incorrect");
 
       this.currentLetterIndex++;
-      this.moveCaret();
+      this.updateTest();
     },
   },
 };
@@ -189,6 +253,7 @@ $font-size: 4em;
 .main-window {
   width: 80em;
   height: 30em;
+  overflow: hidden;
   background-color: $background-color;
   text-align: justify;
   padding: 0.4em;
