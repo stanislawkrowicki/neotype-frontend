@@ -77,7 +77,7 @@ export default {
       if (this.inProgress) return;
 
       this.tryNumber++;
-      this.loadWords();
+      if (this.words.length == 0) this.loadWords();
       this.$nextTick(() => {
         this.moveCaret();
         this.inProgress = true;
@@ -251,6 +251,10 @@ export default {
       this.currentLetterIndex++;
       this.updateTest();
     },
+  },
+
+  mounted() {
+    this.loadWords();
   },
 };
 </script>
