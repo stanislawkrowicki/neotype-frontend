@@ -5,11 +5,13 @@
         <p>Click anywhere to focus...</p>
       </div>
     </transition>
+
     <div
       class="words-container"
       :class="inProgress ? '' : 'blur'"
       ref="words-container"
       @click="startTest"
+      v-if="!testFinished"
     >
       <div class="timer">
         <div
@@ -51,6 +53,12 @@
         <div class="fake-letter"></div>
       </div>
     </div>
+
+    <div v-else class="results" @click="playAgain">
+      <p id="heading">You finished! Your score:</p>
+      <p id="result-wpm">{{ resultWPM }} WPM</p>
+      <p id="play-again">Press anywhere to play again.</p>
+    </div>
   </div>
 </template>
 
@@ -61,6 +69,7 @@ export default {
       words: [],
       timerOptions: [15, 30, 60],
       defaultTimerSelectionIndex: 1, // defaults to the second timerOption
+      selectedTime: 30,
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctLetters: 0,
@@ -68,6 +77,8 @@ export default {
       tryNumber: 0,
       displayCaret: true,
       inProgress: false,
+      testFinished: false,
+      resultWPM: 0,
     };
   },
 
@@ -76,21 +87,34 @@ export default {
       this.$refs["typing-input"].focus();
       if (this.inProgress) return;
 
+      this.testFinished = false;
       this.tryNumber++;
       if (this.words.length == 0) this.loadWords();
       this.$nextTick(() => {
         this.moveCaret();
         this.inProgress = true;
-        const selectedTime = this.$refs["timer-option"].find(
+        this.selectedTime = this.$refs["timer-option"].find(
           (input) => input.checked
         ).value;
         if (this.endTimeout) clearTimeout(this.endTimeout);
-        this.endTimeout = setTimeout(this.endTest, selectedTime * 1000);
+        this.endTimeout = setTimeout(this.endTest, this.selectedTime * 1000);
       });
     },
 
     endTest() {
-      alert("finished!");
+      const LETTERS_IN_WORD = 5;
+      let words = this.correctLetters / LETTERS_IN_WORD;
+      let wpm = words / (this.selectedTime / 60);
+
+      this.resultWPM = Math.floor(wpm);
+      this.testFinished = true;
+    },
+
+    playAgain() {
+      this.testFinished = false;
+      this.$nextTick(() => {
+        this.restartTest();
+      });
     },
 
     loadWords() {
@@ -373,6 +397,22 @@ $font-size: 4em;
   input.timer-option:checked + label {
     opacity: 1;
     font-weight: bold;
+  }
+}
+
+.results {
+  font-family: "Shippori Antique", sans-serif;
+  color: white;
+  text-align: center;
+  #heading {
+    font-size: 3em;
+  }
+  #result-wpm {
+    font-size: 5em;
+  }
+  #play-again {
+    margin-top: 2em;
+    opacity: 0.7;
   }
 }
 </style>
