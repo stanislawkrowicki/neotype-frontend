@@ -330,7 +330,7 @@ $font-size: 4em;
   span {
     color: $primary-color;
     font-size: $font-size;
-    font-family: "Shippori Antique", sans-serif;
+    font-family: $font-family;
     opacity: 0.4;
   }
   #caret {
@@ -387,7 +387,7 @@ $font-size: 4em;
 .timer-option-wrapper {
   display: inline-block;
   label {
-    font-family: "Shippori Antique", sans-serif;
+    font-family: $font-family;
     color: $primary-color;
     opacity: 0.8;
   }
@@ -401,7 +401,7 @@ $font-size: 4em;
 }
 
 .results {
-  font-family: "Shippori Antique", sans-serif;
+  font-family: $font-family;
   color: white;
   text-align: center;
   #heading {

@@ -31,7 +31,7 @@ nav {
     * {
       text-decoration: none;
       color: $primary-color;
-      font-family: "Shippori Antique", sans-serif;
+      font-family: $font-family;
       margin: 2em;
     }
   }
