@@ -286,8 +286,10 @@ export default {
 <style lang="scss" scoped>
 $font-size: 3em;
 
-@media only screen and (min-width: 680px) {
-  $font-size: $font-size * 1.5;
+@media only screen and (min-width: 850px) {
+  .main-window {
+    font-size: 150%;
+  }
 }
 
 .main-window {
@@ -409,14 +411,24 @@ $font-size: 3em;
   color: white;
   text-align: center;
   #heading {
-    font-size: 3em;
+    font-size: 2.5rem;
   }
   #result-wpm {
-    font-size: 5em;
+    font-size: 4rem;
   }
   #play-again {
-    margin-top: 2em;
     opacity: 0.7;
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  .results {
+    #heading {
+      font-size: 3rem;
+    }
+    #result-wpm {
+      font-size: 5rem;
+    }
   }
 }
 </style>

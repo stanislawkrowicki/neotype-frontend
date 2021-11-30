@@ -99,6 +99,10 @@ nav {
         color: $primary-color;
         font-family: $font-family;
         margin: 2em;
+
+        &:hover {
+          font-weight: bold;
+        }
       }
     }
 
