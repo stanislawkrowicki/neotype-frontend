@@ -284,11 +284,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$font-size: 4em;
+$font-size: 3em;
+
+@media only screen and (min-width: 680px) {
+  $font-size: $font-size * 1.5;
+}
 
 .main-window {
-  width: 80em;
-  height: 30em;
+  width: 70vw;
+  height: 50vh;
   overflow: hidden;
   background-color: $background-color;
   text-align: justify;
@@ -305,15 +309,15 @@ $font-size: 4em;
 .not-focused-message {
   position: absolute;
   display: table;
-  height: 30em;
-  width: 80em;
+  height: 50vh;
+  width: 70vw;
   p {
     display: table-cell;
     text-align: center;
     width: 100%;
     vertical-align: middle;
     color: $secondary-color;
-    font-size: 8em;
+    font-size: 2 * $font-size;
     opacity: 0.8;
   }
 }
