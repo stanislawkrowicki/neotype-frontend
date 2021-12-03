@@ -117,23 +117,11 @@ export default {
       });
     },
 
-    loadWords() {
-      let wordsToLoad = [
-        "age",
-        "eyes",
-        "wildblue",
-        "jingle",
-        "blues",
-        "californication",
-        "wet",
-        "sand",
-        "space",
-        "font",
-        "height",
-        "dependency",
-      ];
-      wordsToLoad.sort(() => 0.5 - Math.random());
-
+    async loadWords() {
+      const WORDS_COUNT = 50;
+      // TODO: handle request error
+      let request = await this.$axios.get("/words/" + WORDS_COUNT);
+      let wordsToLoad = request.data;
       let currentWordID = 0;
 
       this.words = [];
@@ -144,22 +132,11 @@ export default {
       });
     },
 
-    loadMoreWords() {
-      let wordsToLoad = [
-        "age",
-        "eyes",
-        "wildblue",
-        "jingle",
-        "blues",
-        "californication",
-        "wet",
-        "sand",
-        "space",
-        "font",
-        "height",
-        "dependency",
-      ];
-      wordsToLoad.sort(() => 0.5 - Math.random());
+    async loadMoreWords() {
+      const WORDS_COUNT = 40;
+      // TODO: handle request error
+      let request = await this.$axios.get("/words/" + WORDS_COUNT);
+      let wordsToLoad = request.data;
 
       let lastWord = this.words[this.words.length - 1];
       let currentWordID = 0;
