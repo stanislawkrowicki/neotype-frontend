@@ -17,7 +17,7 @@
         <li><NuxtLink to="/">Home</NuxtLink></li>
         <li><NuxtLink to="/">Leaderboards</NuxtLink></li>
         <li><NuxtLink to="/">About</NuxtLink></li>
-        <li><NuxtLink to="/">Account</NuxtLink></li>
+        <li><NuxtLink to="/account">Account</NuxtLink></li>
         <li><NuxtLink to="/">Settings</NuxtLink></li>
       </ul>
     </div>
@@ -26,7 +26,7 @@
       <NuxtLink to="/">Home</NuxtLink>
       <NuxtLink to="/">Leaderboards</NuxtLink>
       <NuxtLink to="/">About</NuxtLink>
-      <NuxtLink to="/">Account</NuxtLink>
+      <NuxtLink to="/account">Account</NuxtLink>
       <NuxtLink to="/">Settings</NuxtLink>
     </div>
   </nav>
@@ -48,8 +48,9 @@ export default {
 nav {
   position: relative;
   width: 100%;
-  height: 10vh;
+  height: 9.75vh;
   background-color: $background-color;
+  border-bottom: 0.25vh solid $secondary-color;
 
   .hamburger-menu {
     position: absolute;
