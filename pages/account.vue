@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="container">
+    <div class="info-container">
       <div class="user">
         <div class="user-img"></div>
         <p id="name">{{ name }}</p>
@@ -11,6 +11,19 @@
         <p>Member since: {{ memberSince }}</p>
       </div>
     </div>
+
+    <table v-if="results.length > 0">
+      <tr>
+        <th>Date</th>
+        <th>Result</th>
+        <th>Time</th>
+      </tr>
+      <tr v-for="result in results.slice(0, 10)" :key="result.ID">
+        <th scope="row">{{ result.CreatedAt.split("T")[0] }}</th>
+        <td>{{ result.wpm }}</td>
+        <td>{{ result.time }}</td>
+      </tr>
+    </table>
   </main>
 </template>
 
@@ -22,7 +35,28 @@ export default {
       tests: 0,
       avg: 0,
       memberSince: "",
+      results: [],
     };
+  },
+
+  methods: {
+    loadResults() {
+      const RESULTS_COUNT = 10;
+
+      let auth = "Bearer " + localStorage.getItem("token");
+      let config = {
+        headers: {
+          Authorization: auth,
+        },
+      };
+
+      this.$axios
+        .$get("/results/" + RESULTS_COUNT, config)
+        .then((response) => {
+          this.results = response;
+        })
+        .catch(() => {});
+    },
   },
 
   mounted() {
@@ -52,6 +86,8 @@ export default {
         this.avg = response.avg;
         this.memberSince = "todo";
       });
+
+    this.loadResults();
   },
 };
 </script>
@@ -59,12 +95,12 @@ export default {
 <style scoped lang="scss">
 main {
   position: absolute;
-  height: 90vh;
-  width: 100vw;
+  min-height: 90vh;
+  min-width: 100%;
   background-color: $background-color;
 }
 
-.container {
+.info-container {
   margin-top: 5em;
   display: flex;
   flex-direction: row;
@@ -102,5 +138,24 @@ main {
     margin-top: 0;
     margin-bottom: 2em;
   }
+}
+
+table {
+  table-layout: fixed;
+  width: 50%;
+  border-collapse: collapse;
+  border: 2px solid $secondary-color;
+  margin: auto;
+  margin-top: 2em;
+  margin-bottom: 4em;
+}
+
+th,
+td {
+  padding: 1.5em;
+  color: $primary-color;
+  font-family: $font-family;
+  text-align: center;
+  white-space: nowrap;
 }
 </style>
