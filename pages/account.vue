@@ -89,7 +89,7 @@ export default {
         this.name = response.login;
         this.tests = response.tests;
         this.avg = response.avg;
-        this.memberSince = "todo";
+        this.memberSince = this.formatDate(response.createdAt);
       });
 
     this.loadResults();
