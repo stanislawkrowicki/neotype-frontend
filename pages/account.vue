@@ -7,7 +7,7 @@
       </div>
       <div class="stats">
         <p>Total tests: {{ tests }}</p>
-        <p>All time average: {{ avg }}</p>
+        <p>All time average: {{ avg.toFixed(2) }} WPM</p>
         <p>Member since: {{ memberSince }}</p>
       </div>
     </div>
