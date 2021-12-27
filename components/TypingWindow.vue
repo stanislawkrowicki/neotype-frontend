@@ -117,7 +117,11 @@ export default {
         };
 
         this.$axios
-          .post("/result", { wpm: this.resultWPM }, config)
+          .post(
+            "/result",
+            { wpm: this.resultWPM, time: this.selectedTime },
+            config
+          )
           .catch(() => {});
       }
 
