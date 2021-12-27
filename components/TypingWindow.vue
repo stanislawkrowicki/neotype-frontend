@@ -107,6 +107,20 @@ export default {
       let wpm = words / (this.selectedTime / 60);
 
       this.resultWPM = Math.floor(wpm);
+
+      if (localStorage.getItem("token") !== null) {
+        let auth = "Bearer " + localStorage.getItem("token");
+        let config = {
+          headers: {
+            Authorization: auth,
+          },
+        };
+
+        this.$axios
+          .post("/result", { wpm: this.resultWPM }, config)
+          .catch(() => {});
+      }
+
       this.testFinished = true;
     },
 
