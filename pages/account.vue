@@ -18,8 +18,8 @@
         <th>Result</th>
         <th>Time</th>
       </tr>
-      <tr v-for="result in results.slice(0, 10)" :key="result.ID">
-        <th scope="row">{{ result.CreatedAt.split("T")[0] }}</th>
+      <tr v-for="result in results.slice(0, 10)" :key="result.id">
+        <th scope="row">{{ formatDate(result.date) }}</th>
         <td>{{ result.wpm }}</td>
         <td>{{ result.time }}</td>
       </tr>
@@ -56,6 +56,11 @@ export default {
           this.results = response;
         })
         .catch(() => {});
+    },
+
+    formatDate(date) {
+      let dateObj = new Date(date);
+      return `${dateObj.getFullYear()}-${dateObj.getMonth()}-${dateObj.getDate()}`;
     },
   },
 
