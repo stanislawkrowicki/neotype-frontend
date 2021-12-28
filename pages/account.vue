@@ -17,11 +17,13 @@
       <tr>
         <th>Date</th>
         <th>Result</th>
+        <th>Accuracy</th>
         <th>Time</th>
       </tr>
       <tr v-for="result in results.slice(0, 10)" :key="result.id">
         <th scope="row">{{ formatDate(result.date) }}</th>
         <td>{{ result.wpm }}</td>
+        <td>{{ result.accuracy }}%</td>
         <td>{{ result.time }}</td>
       </tr>
     </table>
