@@ -50,7 +50,10 @@ export default {
     },
 
     getUsername() {
-      if (localStorage.getItem("token") === null) return;
+      if (localStorage.getItem("token") === null) {
+        this.username = null;
+        return;
+      }
 
       let auth = "Bearer " + localStorage.getItem("token");
       let config = {
@@ -74,6 +77,12 @@ export default {
 
   mounted() {
     this.getUsername();
+  },
+
+  watch: {
+    $route() {
+      this.getUsername();
+    },
   },
 };
 </script>
