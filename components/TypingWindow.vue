@@ -337,7 +337,7 @@ $font-size: 3em;
   #caret {
     position: absolute;
     height: $font-size * 1.5;
-    width: 0.5em;
+    width: 0.2em;
     background-color: $secondary-color;
     opacity: 0.8;
     top: 0;
