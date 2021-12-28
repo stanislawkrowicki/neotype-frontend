@@ -4,6 +4,7 @@
       <div class="user">
         <div class="user-img"></div>
         <p id="name">{{ name }}</p>
+        <p @click="logout" id="logout">Log out</p>
       </div>
       <div class="stats">
         <p>Total tests: {{ tests }}</p>
@@ -61,6 +62,11 @@ export default {
     formatDate(date) {
       let dateObj = new Date(date);
       return `${dateObj.getFullYear()}-${dateObj.getMonth()}-${dateObj.getDate()}`;
+    },
+
+    logout() {
+      localStorage.removeItem("token");
+      this.$router.push("/");
     },
   },
 
@@ -129,6 +135,17 @@ main {
     font-size: 3em;
     font-family: $font-family;
     color: $primary-color;
+    margin-bottom: 0em;
+  }
+  #logout {
+    font-size: 2em;
+    font-family: $font-family;
+    color: $secondary-color;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: bold;
+    }
   }
 }
 
