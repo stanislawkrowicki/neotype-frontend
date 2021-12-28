@@ -26,8 +26,8 @@
             class="timer-option"
             :value="time"
             ref="timer-option"
-            :checked="time == timerOptions[defaultTimerSelectionIndex]"
-            @click="restartTest"
+            :checked="time == timerOptions[selectedTime]"
+            @click="changeTime"
           />
           <label v-bind:for="`time-${time}`">{{ time }}</label>
         </div>
@@ -69,8 +69,7 @@ export default {
     return {
       words: [],
       timerOptions: [15, 30, 60],
-      defaultTimerSelectionIndex: 1, // defaults to the second timerOption
-      selectedTime: 30,
+      selectedTime: 1,
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctLetters: 0,
@@ -96,18 +95,18 @@ export default {
       this.$nextTick(() => {
         this.moveCaret();
         this.inProgress = true;
-        this.selectedTime = this.$refs["timer-option"].find(
-          (input) => input.checked
-        ).value;
         if (this.endTimeout) clearTimeout(this.endTimeout);
-        this.endTimeout = setTimeout(this.endTest, this.selectedTime * 1000);
+        this.endTimeout = setTimeout(
+          this.endTest,
+          this.timerOptions[this.selectedTime] * 1000
+        );
       });
     },
 
     endTest() {
       const LETTERS_IN_WORD = 5;
       let words = this.correctLetters / LETTERS_IN_WORD;
-      let wpm = words / (this.selectedTime / 60);
+      let wpm = words / (this.timerOptions[this.selectedTime] / 60);
 
       this.resultWPM = Math.floor(wpm);
       if (this.totalLetters > 0)
@@ -142,6 +141,13 @@ export default {
       this.$nextTick(() => {
         this.restartTest();
       });
+    },
+
+    changeTime(event) {
+      let index = this.timerOptions.indexOf(parseInt(event.target.value));
+      if (this.selectedTime == index) return;
+      this.selectedTime = index;
+      this.restartTest();
     },
 
     async loadWords() {
