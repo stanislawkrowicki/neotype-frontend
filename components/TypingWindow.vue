@@ -341,6 +341,13 @@ $font-size: 3em;
     background-color: $secondary-color;
     opacity: 0.8;
     top: 0;
+    animation: blinking 1s infinite;
+  }
+}
+
+@keyframes blinking {
+  50% {
+    opacity: 0.2;
   }
 }
 
