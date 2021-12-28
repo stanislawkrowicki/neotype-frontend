@@ -19,6 +19,9 @@
         <li><NuxtLink to="/">About</NuxtLink></li>
         <li><NuxtLink to="/account">Account</NuxtLink></li>
         <li><NuxtLink to="/">Settings</NuxtLink></li>
+        <li>
+          <NuxtLink to="/account">{{ username }}</NuxtLink>
+        </li>
       </ul>
     </div>
 
@@ -28,18 +31,51 @@
       <NuxtLink to="/">About</NuxtLink>
       <NuxtLink to="/account">Account</NuxtLink>
       <NuxtLink to="/">Settings</NuxtLink>
+      <NuxtLink to="/account">{{ username || "Guest" }}</NuxtLink>
     </div>
   </nav>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      username: null,
+    };
+  },
+
   methods: {
     hamburgerMenu() {
       const menu = this.$refs["hamburger-menu-main"];
       if (menu.style.display == "none") menu.style.display = "block";
       else menu.style.display = "none";
     },
+
+    getUsername() {
+      if (localStorage.getItem("token") === null) return;
+
+      let auth = "Bearer " + localStorage.getItem("token");
+      let config = {
+        headers: {
+          Authorization: auth,
+        },
+      };
+
+      this.$axios
+        .$get("/username", config)
+        .catch((error) => {
+          if (error.response.status == 401)
+            //Unauthorized
+            localStorage.removeItem("token");
+        })
+        .then((response) => {
+          if (response && response.username) this.username = response.username;
+        });
+    },
+  },
+
+  mounted() {
+    this.getUsername();
   },
 };
 </script>
