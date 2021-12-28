@@ -71,12 +71,11 @@ export default {
     },
   },
 
-  created() {
-    if (localStorage.getItem("token") === null) this.$router.push("/login");
-  },
-
   mounted() {
-    if (!this.shouldRender) return;
+    if (localStorage.getItem("token") === null) {
+      this.$router.push("/login");
+      return;
+    }
     let auth = "Bearer " + localStorage.getItem("token");
     let config = {
       headers: {
