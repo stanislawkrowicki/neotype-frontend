@@ -1,64 +1,73 @@
 <template>
   <div class="main-window" @click="startTest">
-    <transition name="fade">
-      <div v-show="!inProgress" class="not-focused-message">
-        <p>Click anywhere to focus...</p>
-      </div>
-    </transition>
-
-    <div
-      class="words-container"
-      :class="inProgress ? '' : 'blur'"
-      ref="words-container"
-      @click="startTest"
-      v-if="!testFinished"
-    >
-      <div class="timer">
-        <div
-          v-for="time in timerOptions"
-          :key="time"
-          class="timer-option-wrapper"
-        >
-          <input
-            type="radio"
-            name="time"
-            v-bind:id="`time-${time}`"
-            class="timer-option"
-            :value="time"
-            ref="timer-option"
-            :checked="time == timerOptions[selectedTime]"
-            @click="changeTime"
-          />
-          <label v-bind:for="`time-${time}`">{{ time }}</label>
-        </div>
-      </div>
-      <input
-        type="text"
-        id="words-input"
-        ref="typing-input"
-        v-on:keydown="keyPressed"
-        autocomplete="off"
-        autocapitalize="off"
-        autocorrect="off"
-      />
-      <div v-if="displayCaret" ref="caret" id="caret"></div>
-      <div v-for="word in words" :key="`${tryNumber}_${word.id}`" class="word">
-        <div
-          v-for="(letter, index) in word.word"
-          :key="`${tryNumber}_${word.id}_${index}`"
-          class="letter"
-        >
-          <span>{{ letter }}</span>
-        </div>
-        <div class="fake-letter"></div>
-      </div>
+    <div v-if="words.length == 0" class="loading">
+      <p>Loading...</p>
     </div>
+    <div v-else>
+      <transition name="fade">
+        <div v-show="!inProgress" class="not-focused-message">
+          <p>Click anywhere to focus...</p>
+        </div>
+      </transition>
 
-    <div v-else class="results" @click="playAgain">
-      <p id="heading">You finished! Your score:</p>
-      <p id="result-wpm">{{ resultWPM }} WPM</p>
-      <p id="result-accuracy">{{ resultAccuracy }}% accuracy</p>
-      <p id="play-again">Press anywhere to play again.</p>
+      <div
+        class="words-container"
+        :class="inProgress ? '' : 'blur'"
+        ref="words-container"
+        @click="startTest"
+        v-if="!testFinished"
+      >
+        <div class="timer">
+          <div
+            v-for="time in timerOptions"
+            :key="time"
+            class="timer-option-wrapper"
+          >
+            <input
+              type="radio"
+              name="time"
+              v-bind:id="`time-${time}`"
+              class="timer-option"
+              :value="time"
+              ref="timer-option"
+              :checked="time == timerOptions[selectedTime]"
+              @click="changeTime"
+            />
+            <label v-bind:for="`time-${time}`">{{ time }}</label>
+          </div>
+        </div>
+        <input
+          type="text"
+          id="words-input"
+          ref="typing-input"
+          v-on:keydown="keyPressed"
+          autocomplete="off"
+          autocapitalize="off"
+          autocorrect="off"
+        />
+        <div v-if="displayCaret" ref="caret" id="caret"></div>
+        <div
+          v-for="word in words"
+          :key="`${tryNumber}_${word.id}`"
+          class="word"
+        >
+          <div
+            v-for="(letter, index) in word.word"
+            :key="`${tryNumber}_${word.id}_${index}`"
+            class="letter"
+          >
+            <span>{{ letter }}</span>
+          </div>
+          <div class="fake-letter"></div>
+        </div>
+      </div>
+
+      <div v-else class="results" @click="playAgain">
+        <p id="heading">You finished! Your score:</p>
+        <p id="result-wpm">{{ resultWPM }} WPM</p>
+        <p id="result-accuracy">{{ resultAccuracy }}% accuracy</p>
+        <p id="play-again">Press anywhere to play again.</p>
+      </div>
     </div>
   </div>
 </template>
@@ -86,6 +95,7 @@ export default {
 
   methods: {
     startTest() {
+      if (this.words.length == 0) return;
       this.$refs["typing-input"].focus();
       if (this.inProgress) return;
 
@@ -320,7 +330,8 @@ $font-size: 3em;
   transition: blur 0.3s ease;
 }
 
-.not-focused-message {
+.not-focused-message,
+.loading {
   position: absolute;
   display: table;
   height: 50vh;
@@ -333,6 +344,13 @@ $font-size: 3em;
     color: $secondary-color;
     font-size: 2 * $font-size;
     opacity: 0.8;
+  }
+}
+
+.loading {
+  p {
+    color: $secondary-color;
+    animation: blinking 2s infinite;
   }
 }
 
