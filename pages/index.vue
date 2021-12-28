@@ -17,7 +17,7 @@ export default {};
 
 #typing-window {
   display: block;
-  margin: 10em auto;
+  margin: 5em auto;
   border-style: ridge;
   border-color: $primary-color;
 }
