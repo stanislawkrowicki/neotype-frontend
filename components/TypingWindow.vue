@@ -389,7 +389,7 @@ $font-size: 3em;
 }
 
 .timer {
-  float: right;
+  text-align: right;
 }
 
 .timer-option-wrapper {
