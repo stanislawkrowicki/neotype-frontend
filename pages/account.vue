@@ -2,7 +2,7 @@
   <main>
     <div v-if="shouldRender" class="info-container">
       <div class="user">
-        <div class="user-img"></div>
+        <img class="user-img" src="~/assets/images/profile.png" />
         <p id="name">{{ name }}</p>
         <p @click="logout" id="logout">Log out</p>
       </div>
@@ -134,7 +134,6 @@ main {
   .user-img {
     height: 14em;
     width: 14em;
-    background-color: #f0f;
     margin-top: 0.9em;
   }
   #name {
