@@ -57,6 +57,7 @@
     <div v-else class="results" @click="playAgain">
       <p id="heading">You finished! Your score:</p>
       <p id="result-wpm">{{ resultWPM }} WPM</p>
+      <p id="result-accuracy">{{ resultAccuracy }}% accuracy</p>
       <p id="play-again">Press anywhere to play again.</p>
     </div>
   </div>
@@ -73,12 +74,14 @@ export default {
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctLetters: 0,
+      totalLetters: 0,
       wordsFromNewlineCounter: 0,
       tryNumber: 0,
       displayCaret: true,
       inProgress: false,
       testFinished: false,
       resultWPM: 0,
+      resultAccuracy: 0,
     };
   },
 
@@ -107,6 +110,12 @@ export default {
       let wpm = words / (this.selectedTime / 60);
 
       this.resultWPM = Math.floor(wpm);
+      if (this.totalLetters > 0)
+        this.resultAccuracy = (
+          (this.correctLetters / this.totalLetters) *
+          100
+        ).toFixed(2);
+      else this.resultAccuracy = 0;
 
       if (localStorage.getItem("token") !== null) {
         let auth = "Bearer " + localStorage.getItem("token");
@@ -177,6 +186,7 @@ export default {
       this.currentWordIndex = 0;
       this.currentLetterIndex = 0;
       this.correctLetters = 0;
+      this.totalLetters = 0;
       this.wordsFromNewlineCounter = 0;
       this.inProgress = false;
       this.startTest();
@@ -267,6 +277,7 @@ export default {
         letter.classList.add("correct");
       } else letter.classList.add("incorrect");
 
+      this.totalLetters++;
       this.currentLetterIndex++;
       this.updateTest();
     },
@@ -417,6 +428,11 @@ $font-size: 3em;
   }
   #result-wpm {
     font-size: 4rem;
+    margin-bottom: 0em;
+  }
+  #result-accuracy {
+    margin-top: 0em;
+    margin-bottom: 2em;
   }
   #play-again {
     opacity: 0.7;
