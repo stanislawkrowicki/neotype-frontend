@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="info-container">
+    <div v-if="shouldRender" class="info-container">
       <div class="user">
         <div class="user-img"></div>
         <p id="name">{{ name }}</p>
@@ -37,6 +37,7 @@ export default {
       avg: 0,
       memberSince: "",
       results: [],
+      shouldRender: false,
     };
   },
 
@@ -70,9 +71,12 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     if (localStorage.getItem("token") === null) this.$router.push("/login");
+  },
 
+  mounted() {
+    if (!this.shouldRender) return;
     let auth = "Bearer " + localStorage.getItem("token");
     let config = {
       headers: {
@@ -96,6 +100,7 @@ export default {
         this.tests = response.tests;
         this.avg = response.avg;
         this.memberSince = this.formatDate(response.createdAt);
+        this.shouldRender = true;
       });
 
     this.loadResults();
