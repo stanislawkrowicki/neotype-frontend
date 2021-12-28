@@ -63,9 +63,15 @@
       </div>
 
       <div v-else class="results" @click="playAgain">
-        <p id="heading">You finished! Your score:</p>
-        <p id="result-wpm">{{ resultWPM }} WPM</p>
-        <p id="result-accuracy">{{ resultAccuracy }}% accuracy</p>
+        <div v-if="antiAFK" id="anti-afk">
+          <p id="heading">It looks like you were AFK.</p>
+          <p id="description">Your result has not been saved.</p>
+        </div>
+        <div v-else id="result">
+          <p id="heading">You finished! Your score:</p>
+          <p id="result-wpm">{{ resultWPM }} WPM</p>
+          <p id="result-accuracy">{{ resultAccuracy }}% accuracy</p>
+        </div>
         <p id="play-again">Press anywhere to play again.</p>
       </div>
     </div>
@@ -90,6 +96,8 @@ export default {
       testFinished: false,
       resultWPM: 0,
       resultAccuracy: 0,
+      antiAFK: false,
+      lastTime: null,
     };
   },
 
@@ -110,10 +118,13 @@ export default {
           this.endTest,
           this.timerOptions[this.selectedTime] * 1000
         );
+        this.lastTime = new Date().getTime();
+        this.antiAFKInterval = setInterval(this.checkAntiAfk, 1000);
       });
     },
 
     endTest() {
+      if (this.antiAFKInterval) clearInterval(this.antiAFKInterval);
       const LETTERS_IN_WORD = 5;
       let words = this.correctLetters / LETTERS_IN_WORD;
       let wpm = words / (this.timerOptions[this.selectedTime] / 60);
@@ -125,6 +136,18 @@ export default {
           100
         ).toFixed(2);
       else this.resultAccuracy = 0;
+
+      const resultWPM = this.resultWPM;
+      const resultAccuracy = this.resultAccuracy;
+      const selectedTime = this.selectedTime;
+
+      if (wpm < 10) {
+        this.antiAFK = true;
+        this.testFinished = true;
+        return;
+      }
+
+      this.testFinished = true;
 
       if (localStorage.getItem("token") !== null) {
         let auth = "Bearer " + localStorage.getItem("token");
@@ -138,16 +161,14 @@ export default {
           .post(
             "/result",
             {
-              wpm: this.resultWPM,
-              time: this.timerOptions[this.selectedTime],
-              accuracy: parseFloat(this.resultAccuracy),
+              wpm: resultWPM,
+              time: this.timerOptions[selectedTime],
+              accuracy: parseFloat(resultAccuracy),
             },
             config
           )
           .catch(() => {});
       }
-
-      this.testFinished = true;
     },
 
     playAgain() {
@@ -162,6 +183,18 @@ export default {
       if (this.selectedTime == index) return;
       this.selectedTime = index;
       this.restartTest();
+    },
+
+    checkAntiAfk() {
+      const ANTI_AFK_THRESHOLD = 10; // seconds
+
+      if (this.lastTime !== null) {
+        if (new Date().getTime() - this.lastTime >= ANTI_AFK_THRESHOLD * 1000) {
+          this.antiAFK = true;
+          this.endTest();
+          return;
+        }
+      }
     },
 
     async loadWords() {
@@ -203,12 +236,14 @@ export default {
 
     restartTest() {
       if (this.endTimeout) clearTimeout(this.endTimeout);
+      if (this.antiAFKInterval) clearInterval(this.antiAFKInterval);
       this.currentWordIndex = 0;
       this.currentLetterIndex = 0;
       this.correctLetters = 0;
       this.totalLetters = 0;
       this.wordsFromNewlineCounter = 0;
       this.inProgress = false;
+      this.antiAFK = false;
       this.startTest();
     },
 
@@ -260,6 +295,8 @@ export default {
     },
 
     keyPressed(e) {
+      this.lastTime = new Date().getTime();
+
       if (e.code == "Space") {
         let currentWord =
           this.$refs["words-container"].querySelectorAll(".word")[
@@ -449,31 +486,66 @@ $font-size: 3em;
 
 .results {
   font-family: $font-family;
-  color: white;
   text-align: center;
-  #heading {
-    font-size: 2.5rem;
+
+  #anti-afk {
+    #heading {
+      color: $error-color;
+      font-size: 2.25em;
+    }
+    #description {
+      color: $primary-color;
+      font-size: 1.25em;
+      margin-bottom: 3em;
+    }
   }
-  #result-wpm {
-    font-size: 4rem;
-    margin-bottom: 0em;
+
+  #result {
+    color: white;
+    #heading {
+      font-size: 2.5rem;
+    }
+    #result-wpm {
+      font-size: 4rem;
+      margin-bottom: 0em;
+    }
+    #result-accuracy {
+      margin-top: 0em;
+      margin-bottom: 3em;
+    }
   }
-  #result-accuracy {
-    margin-top: 0em;
-    margin-bottom: 2em;
-  }
+
   #play-again {
+    color: white;
     opacity: 0.7;
   }
 }
 
 @media only screen and (min-width: 850px) {
   .results {
-    #heading {
-      font-size: 3rem;
+    #result {
+      #heading {
+        font-size: 3rem;
+      }
+      #result-wpm {
+        font-size: 5rem;
+      }
     }
-    #result-wpm {
-      font-size: 5rem;
+  }
+}
+
+@media only screen and (min-width: 1300px) {
+  .results {
+    #anti-afk {
+      #heading {
+        color: $error-color;
+        font-size: 3em;
+      }
+      #description {
+        color: $primary-color;
+        font-size: 2em;
+        margin-bottom: 2em;
+      }
     }
   }
 }
