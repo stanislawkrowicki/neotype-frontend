@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <TypingWindow id="typing-window" />
+    <Leaderboard id="leaderboard" />
   </div>
 </template>
 
@@ -10,15 +11,20 @@ export default {};
 
 <style lang="scss" scoped>
 .main-container {
-  height: 90vh; // 10vh is taken by the navbar
+  position: absolute;
+  min-height: 90vh; // 10vh for navbar
+  min-width: 100%;
   background-color: $background-color;
-  overflow: hidden;
 }
 
 #typing-window {
   display: block;
-  margin: 5em auto;
+  margin: 7.5em auto;
   border-style: ridge;
   border-color: $primary-color;
+}
+
+#leaderboard {
+  margin-top: 30vh;
 }
 </style>
