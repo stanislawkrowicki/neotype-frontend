@@ -18,6 +18,10 @@
       <p>Hmmm, it looks like there are no recent results yet. 🙁</p>
       <p>Why don't you start the party? 😀</p>
     </div>
+
+    <footer>
+      <p>Leaderboard is cleaned every 72 hours.</p>
+    </footer>
   </div>
 </template>
 
@@ -79,6 +83,14 @@ td {
 }
 
 .no-leaders {
+  p {
+    color: $primary-color;
+    font-family: $font-family;
+    text-align: center;
+  }
+}
+
+footer {
   p {
     color: $primary-color;
     font-family: $font-family;
