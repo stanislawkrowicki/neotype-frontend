@@ -6,11 +6,13 @@
         <th>User</th>
         <th>WPM</th>
         <th>Accuracy</th>
+        <th>Time</th>
       </tr>
       <tr v-for="leader in leaders" :key="leader.username">
         <th>{{ leader.username }}</th>
         <th>{{ leader.wpm }}</th>
-        <th>{{ leader.accuracy }}</th>
+        <th>{{ parseFloat(leader.accuracy).toFixed(2) }}</th>
+        <th>{{ leader.time }}</th>
       </tr>
     </table>
 
@@ -41,9 +43,8 @@ export default {
         .get("/leaderboards/" + LEADERS_TO_FETCH)
         .catch(() => {})
         .then((response) => {
-          if (response) {
+          if (response && response.data) {
             this.leaders = response.data;
-            console.log(this.leaders);
           }
         });
     },
