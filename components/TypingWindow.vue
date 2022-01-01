@@ -297,12 +297,14 @@ export default {
     keyPressed(e) {
       this.lastTime = new Date().getTime();
 
+      let word =
+        this.$refs["words-container"].querySelectorAll(".word")[
+          this.currentWordIndex
+        ];
+      let letters = word.querySelectorAll(".letter");
+
       if (e.code == "Space") {
-        let currentWord =
-          this.$refs["words-container"].querySelectorAll(".word")[
-            this.currentWordIndex
-          ];
-        currentWord.querySelectorAll(".letter").forEach((letter) => {
+        letters.forEach((letter) => {
           if (
             letter.classList.contains("correct") ||
             letter.classList.contains("incorrect")
@@ -315,12 +317,29 @@ export default {
         this.wordsFromNewlineCounter++;
         this.updateTest();
         return;
+      } else if (e.code == "Backspace") {
+        if (this.currentLetterIndex == 0) {
+          let precedingWord =
+            this.$refs["words-container"].querySelectorAll(".word")[
+              this.currentWordIndex - 1
+            ];
+          if (precedingWord === undefined) return;
+          this.currentWordIndex--;
+          this.currentLetterIndex =
+            precedingWord.querySelectorAll(".letter").length;
+          this.wordsFromNewlineCounter--;
+          this.updateTest();
+          return;
+        }
+        let lastLetter = letters[this.currentLetterIndex - 1];
+        if (lastLetter.classList.contains("correct")) this.correctLetters--;
+        this.totalLetters--;
+        this.currentLetterIndex--;
+        lastLetter.classList.remove("correct");
+        lastLetter.classList.remove("incorrect");
+        this.updateTest();
+        return;
       }
-
-      let word =
-        this.$refs["words-container"].querySelectorAll(".word")[
-          this.currentWordIndex
-        ];
 
       if (word === undefined) return;
 
