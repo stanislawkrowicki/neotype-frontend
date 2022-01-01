@@ -11,8 +11,8 @@
       <tr v-for="leader in leaders" :key="leader.username">
         <th>{{ leader.username }}</th>
         <th>{{ leader.wpm }}</th>
-        <th>{{ parseFloat(leader.accuracy).toFixed(2) }}</th>
-        <th>{{ leader.time }}</th>
+        <th>{{ parseFloat(leader.accuracy).toFixed(2) }}%</th>
+        <th>{{ leader.time }}s</th>
       </tr>
     </table>
 
