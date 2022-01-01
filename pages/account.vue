@@ -141,6 +141,7 @@ main {
     font-family: $font-family;
     color: $primary-color;
     margin-bottom: 0em;
+    width: 14rem;
   }
   #logout {
     font-size: 2em;
