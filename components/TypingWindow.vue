@@ -297,6 +297,7 @@ export default {
     keyPressed(e) {
       this.lastTime = new Date().getTime();
 
+      // This is a total mess. There must be a better way, but I can not think of it.
       let word =
         this.$refs["words-container"].querySelectorAll(".word")[
           this.currentWordIndex
@@ -304,14 +305,22 @@ export default {
       let letters = word.querySelectorAll(".letter");
 
       if (e.code == "Space") {
+        let isWordCorrect = true;
         letters.forEach((letter) => {
+          if (letter.classList.contains("incorrect")) isWordCorrect = false;
           if (
             letter.classList.contains("correct") ||
             letter.classList.contains("incorrect")
           )
             return;
           letter.classList.add("incorrect");
+          isWordCorrect = false;
         });
+        // AFAIK space is considered a character
+        if (isWordCorrect) {
+          this.correctLetters++;
+          this.totalLetters++;
+        }
         this.currentWordIndex++;
         this.currentLetterIndex = 0;
         this.wordsFromNewlineCounter++;
