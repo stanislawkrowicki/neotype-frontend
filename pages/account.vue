@@ -79,7 +79,7 @@ main {
   position: absolute;
   min-height: 90vh;
   min-width: 100%;
-  background-color: $background-color;
+  background-color: var(--background-color);
 }
 
 .info-container {
@@ -103,15 +103,15 @@ main {
   }
   #name {
     font-size: 3em;
-    font-family: $font-family;
-    color: $primary-color;
+    font-family: var(--font-family);
+    color: var(--primary-color);
     margin-bottom: 0em;
     width: 14rem;
   }
   #logout {
     font-size: 2em;
-    font-family: $font-family;
-    color: $secondary-color;
+    font-family: var(--font-family);
+    color: var(--secondary-color);
     cursor: pointer;
 
     &:hover {
@@ -124,8 +124,8 @@ main {
   margin-left: 2em;
   padding-right: 5vw;
   font-size: 2em;
-  color: $primary-color;
-  font-family: $font-family;
+  color: var(--primary-color);
+  font-family: var(--font-family);
 
   p {
     margin-top: 0;

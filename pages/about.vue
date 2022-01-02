@@ -31,28 +31,28 @@ export default {};
 .container {
   height: 90vh;
   width: 100vw;
-  background-color: $background-color;
+  background-color: var(--background-color);
 }
 
 header,
 p {
-  font-family: $font-family;
+  font-family: var(--font-family);
   text-align: center;
 }
 
 header {
-  color: $secondary-color;
+  color: var(--secondary-color);
   font-size: 6em;
   margin-bottom: 1em;
 }
 
 p {
-  color: $primary-color;
+  color: var(--primary-color);
   font-size: 2em;
 }
 
 a {
-  color: $primary-color;
+  color: var(--primary-color);
 }
 
 .images {

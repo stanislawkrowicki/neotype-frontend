@@ -59,7 +59,7 @@ table {
   table-layout: fixed;
   width: 50%;
   border-collapse: collapse;
-  border: 2px solid $secondary-color;
+  border: 2px solid var(--secondary-color);
   margin: auto;
   margin-top: 2em;
   margin-bottom: 4em;
@@ -68,8 +68,8 @@ table {
 th,
 td {
   padding: 1.5em;
-  color: $primary-color;
-  font-family: $font-family;
+  color: var(--primary-color);
+  font-family: var(--font-family);
   text-align: center;
   white-space: nowrap;
 }

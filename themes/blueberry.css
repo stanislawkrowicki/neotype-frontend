@@ -1,0 +1,8 @@
+:root {
+  --background-color: hsl(222, 33%, 19%);
+  --primary-color: hsl(209, 100%, 84%);
+  --secondary-color: hsl(213, 29%, 50%);
+  --aditional-color: hsl(213, 29%, 50%);
+  --error-color: hsl(341, 71%, 57%);
+  --font-family: "Shippori Antique", sans-serif;
+}

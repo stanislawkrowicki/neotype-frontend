@@ -65,7 +65,7 @@ export default {
 .login,
 .register {
   display: flex;
-  background-color: $background-color;
+  background-color: var(--background-color);
   width: 60vh;
   margin-left: auto;
   margin-right: auto;
@@ -81,9 +81,9 @@ export default {
 }
 
 .heading {
-  color: $primary-color;
+  color: var(--primary-color);
   opacity: 0.8;
-  font-family: $font-family;
+  font-family: var(--font-family);
   font-size: 4em;
   margin-bottom: 0em;
   margin-top: 0em;
@@ -97,21 +97,21 @@ input {
   display: block;
   margin-bottom: 3em;
   padding: 1em;
-  background-color: $background-color;
+  background-color: var(--background-color);
   box-sizing: border-box;
   border: none;
-  border-bottom: 2px solid $secondary-color;
-  color: $primary-color;
+  border-bottom: 2px solid var(--secondary-color);
+  color: var(--primary-color);
   outline: none;
 }
 
 input:focus {
-  border-bottom: 2px solid $primary-color;
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .message {
-  font-family: $font-family;
-  color: $primary-color;
+  font-family: var(--font-family);
+  color: var(--primary-color);
   margin-bottom: 1em;
 }
 
@@ -119,27 +119,27 @@ input:focus {
   margin-bottom: 3em;
   width: 6em;
   height: 4em;
-  background-color: $background-color;
-  border: 1px solid $primary-color;
-  color: $primary-color;
+  background-color: var(--background-color);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
   transition-duration: 0.3s;
   border-radius: 0.5em;
   cursor: pointer;
 }
 
 .submit-btn:hover {
-  border-color: $background-color;
-  background-color: $primary-color;
-  color: $background-color;
+  border-color: var(--background-color);
+  background-color: var(--primary-color);
+  color: var(--background-color);
 }
 
 #redirect {
-  color: $primary-color;
-  font-family: $font-family;
+  color: var(--primary-color);
+  font-family: var(--font-family);
 
   * {
     text-decoration: none;
-    color: $secondary-color;
+    color: var(--secondary-color);
     font-weight: bold;
   }
 }

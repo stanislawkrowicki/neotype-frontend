@@ -12,7 +12,7 @@ export default {};
   top: 10vh;
   height: 90vh;
   width: 100vw;
-  background-color: $background-color !important;
+  background-color: var(--background-color) !important;
 
   #login {
     position: relative;

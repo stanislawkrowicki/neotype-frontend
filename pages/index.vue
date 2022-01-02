@@ -14,14 +14,14 @@ export default {};
   position: absolute;
   min-height: 90vh; // 10vh for navbar
   min-width: 100%;
-  background-color: $background-color;
+  background-color: var(--background-color);
 }
 
 #typing-window {
   display: block;
   margin: 7.5em auto;
   border-style: ridge;
-  border-color: $primary-color;
+  border-color: var(--primary-color);
 }
 
 #leaderboard {

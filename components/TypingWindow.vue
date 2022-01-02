@@ -387,7 +387,7 @@ $font-size: 3em;
   width: 70vw;
   height: 50vh;
   overflow: hidden;
-  background-color: $background-color;
+  background-color: var(--background-color);
   text-align: justify;
   padding: 0.4em;
 }
@@ -410,7 +410,7 @@ $font-size: 3em;
     text-align: center;
     width: 100%;
     vertical-align: middle;
-    color: $secondary-color;
+    color: var(--secondary-color);
     font-size: 2 * $font-size;
     opacity: 0.8;
   }
@@ -418,7 +418,7 @@ $font-size: 3em;
 
 .loading {
   p {
-    color: $secondary-color;
+    color: var(--secondary-color);
     animation: blinking 2s infinite;
   }
 }
@@ -433,16 +433,16 @@ $font-size: 3em;
   display: inline-block;
   position: relative;
   span {
-    color: $primary-color;
+    color: var(--primary-color);
     font-size: $font-size;
-    font-family: $font-family;
+    font-family: var(--font-family);
     opacity: 0.4;
   }
   #caret {
     position: absolute;
     height: $font-size * 1.5;
     width: 0.2em;
-    background-color: $secondary-color;
+    background-color: var(--secondary-color);
     opacity: 0.8;
     top: 0;
     animation: blinking 1s infinite;
@@ -461,12 +461,12 @@ $font-size: 3em;
 
 .correct > span {
   opacity: 0.8;
-  color: $primary-color;
+  color: var(--primary-color);
 }
 
 .incorrect > span {
   opacity: 0.5;
-  color: $error-color;
+  color: var(--error-color);
 }
 
 #words-input {
@@ -499,8 +499,8 @@ $font-size: 3em;
 .timer-option-wrapper {
   display: inline-block;
   label {
-    font-family: $font-family;
-    color: $primary-color;
+    font-family: var(--font-family);
+    color: var(--primary-color);
     opacity: 0.8;
   }
   input.timer-option {
@@ -513,16 +513,16 @@ $font-size: 3em;
 }
 
 .results {
-  font-family: $font-family;
+  font-family: var(--font-family);
   text-align: center;
 
   #anti-afk {
     #heading {
-      color: $error-color;
+      color: var(--error-color);
       font-size: 2.25em;
     }
     #description {
-      color: $primary-color;
+      color: var(--primary-color);
       font-size: 1.25em;
       margin-bottom: 3em;
     }
@@ -566,11 +566,11 @@ $font-size: 3em;
   .results {
     #anti-afk {
       #heading {
-        color: $error-color;
+        color: var(--error-color);
         font-size: 3em;
       }
       #description {
-        color: $primary-color;
+        color: var(--primary-color);
         font-size: 2em;
         margin-bottom: 2em;
       }

@@ -92,8 +92,8 @@ nav {
   position: relative;
   width: 100%;
   height: 9.75vh;
-  background-color: $background-color;
-  border-bottom: 0.25vh solid $secondary-color;
+  background-color: var(--background-color);
+  border-bottom: 0.25vh solid var(--secondary-color);
 
   .hamburger-menu {
     position: absolute;
@@ -102,7 +102,7 @@ nav {
 
     .hamburger-menu-btn {
       float: right;
-      fill: $primary-color;
+      fill: var(--primary-color);
       cursor: pointer;
     }
 
@@ -114,8 +114,8 @@ nav {
 
       li > * {
         text-decoration: none;
-        color: $primary-color;
-        font-family: $font-family;
+        color: var(--primary-color);
+        font-family: var(--font-family);
         cursor: pointer;
 
         &:hover {
@@ -140,8 +140,8 @@ nav {
       cursor: pointer;
       * {
         text-decoration: none;
-        color: $primary-color;
-        font-family: $font-family;
+        color: var(--primary-color);
+        font-family: var(--font-family);
         margin: 2em;
 
         &:hover {
