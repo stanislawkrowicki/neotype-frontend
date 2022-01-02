@@ -104,24 +104,28 @@ export default {
   methods: {
     startTest() {
       if (this.words.length == 0) return;
-      this.$nextTick(() => {
-        this.$refs["typing-input"].focus();
-        if (this.inProgress) return;
+      this.$refs["typing-input"].focus();
+      if (this.inProgress) return;
 
-        this.testFinished = false;
-        this.tryNumber++;
-        if (this.words.length == 0) this.loadWords();
-        this.$nextTick(() => {
-          this.moveCaret();
-          this.inProgress = true;
-          if (this.endTimeout) clearTimeout(this.endTimeout);
-          this.lastTime = new Date().getTime();
-        });
+      this.testFinished = false;
+      this.tryNumber++;
+      if (this.words.length == 0) this.loadWords();
+      this.$nextTick(() => {
+        this.moveCaret();
+        this.inProgress = true;
+        if (this.endTimeout) {
+          clearTimeout(this.endTimeout);
+          this.endTimeout = undefined;
+        }
+        this.lastTime = new Date().getTime();
       });
     },
 
     endTest() {
-      if (this.antiAFKInterval) clearInterval(this.antiAFKInterval);
+      if (this.antiAFKInterval) {
+        clearInterval(this.antiAFKInterval);
+        this.antiAFKInterval = undefined;
+      }
       const LETTERS_IN_WORD = 5;
       let words = this.correctLetters / LETTERS_IN_WORD;
       let wpm = words / (this.timerOptions[this.selectedTime] / 60);
