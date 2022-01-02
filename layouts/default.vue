@@ -49,7 +49,8 @@ body {
 
 .container,
 nav,
-.nav-link {
+.nav-link,
+header {
   transition: all 750ms linear;
 }
 </style>
