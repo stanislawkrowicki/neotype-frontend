@@ -18,6 +18,13 @@ export default {
       const THEME_ID = "theme";
       const DEFAULT_THEME = "olivia";
 
+      let elems = this.querySelectorAll(
+        ".container, nav, .nav-link, header, .main-container"
+      );
+      elems.forEach((elem) => {
+        elem.style.transition = "none";
+      });
+
       let theme = localStorage.getItem("theme") || DEFAULT_THEME;
       let parsedTheme = theme.replace(" ", "_");
 
@@ -33,6 +40,10 @@ export default {
       }
 
       this.render = true;
+
+      elems.forEach((elem) => {
+        elem.style.transition = "all 750ms linear";
+      });
     },
   },
 
