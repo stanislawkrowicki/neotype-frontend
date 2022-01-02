@@ -18,7 +18,7 @@ export default {
       const THEME_ID = "theme";
       const DEFAULT_THEME = "olivia";
 
-      let elems = this.querySelectorAll(
+      let elems = document.querySelectorAll(
         ".container, nav, .nav-link, header, .main-container"
       );
       elems.forEach((elem) => {
