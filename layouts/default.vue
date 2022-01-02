@@ -54,6 +54,6 @@ header,
 .main-container,
 #typing-window,
 .main-window {
-  transition: color 750ms linear, background-color 750ms linear;
+  transition: all 750ms linear;
 }
 </style>
