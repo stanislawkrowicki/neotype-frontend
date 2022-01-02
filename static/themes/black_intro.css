@@ -1,8 +1,8 @@
 :root {
   --background-color: hsl(0, 0%, 0%);
-  --primary-color: hsl(0, 0%, 100%);
-  --secondary-color: hsl(0, 0%, 100%);
-  --aditional-color: hsl(0, 0%, 100%);
-  --error-color: hsl(0, 0%, 100%);
+  --primary-color: hsl(0, 0%, 0%);
+  --secondary-color: hsl(0, 0%, 0%);
+  --aditional-color: hsl(0, 0%, 0%);
+  --error-color: hsl(0, 0%, 0%);
   --font-family: "Shippori Antique", sans-serif;
 }
