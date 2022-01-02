@@ -84,7 +84,7 @@ export default {
     return {
       words: [],
       timerOptions: [15, 30, 60],
-      selectedTime: 1,
+      selectedTime: localStorage.getItem("time") || 1,
       currentWordIndex: 0,
       currentLetterIndex: 0,
       correctLetters: 0,
@@ -179,6 +179,7 @@ export default {
       let index = this.timerOptions.indexOf(parseInt(event.target.value));
       if (this.selectedTime == index) return;
       this.selectedTime = index;
+      localStorage.setItem("time", this.selectedTime);
       this.restartTest();
     },
 
