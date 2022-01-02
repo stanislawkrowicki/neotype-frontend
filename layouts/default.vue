@@ -18,13 +18,6 @@ export default {
       const THEME_ID = "theme";
       const DEFAULT_THEME = "olivia";
 
-      let elems = document.querySelectorAll(
-        ".container, nav, .nav-link, header, .main-container"
-      );
-      elems.forEach((elem) => {
-        elem.style.transition = "none";
-      });
-
       let theme = localStorage.getItem("theme") || DEFAULT_THEME;
       let parsedTheme = theme.replace(" ", "_");
 
@@ -40,10 +33,6 @@ export default {
       }
 
       this.render = true;
-
-      elems.forEach((elem) => {
-        elem.style.transition = "all 750ms linear";
-      });
     },
   },
 
@@ -62,7 +51,9 @@ body {
 nav,
 .nav-link,
 header,
-.main-container {
+.main-container,
+#typing-window,
+.main-window {
   transition: all 750ms linear;
 }
 </style>
