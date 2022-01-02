@@ -17,7 +17,7 @@
         <li><NuxtLink to="/">Home</NuxtLink></li>
         <li><NuxtLink to="/#leaderboard">Leaderboards</NuxtLink></li>
         <li><NuxtLink to="/about">About</NuxtLink></li>
-        <li><NuxtLink to="/">Settings</NuxtLink></li>
+        <li><NuxtLink to="/settings">Settings</NuxtLink></li>
         <li>
           <NuxtLink to="/account">{{ username }}</NuxtLink>
         </li>
@@ -25,11 +25,13 @@
     </div>
 
     <div class="links">
-      <NuxtLink to="/">Home</NuxtLink>
-      <NuxtLink to="/#leaderboard">Leaderboards</NuxtLink>
-      <NuxtLink to="/about">About</NuxtLink>
-      <NuxtLink to="/">Settings</NuxtLink>
-      <NuxtLink to="/account">{{ username || "Guest" }}</NuxtLink>
+      <NuxtLink to="/" class="nav-link">Home</NuxtLink>
+      <NuxtLink to="/#leaderboard" class="nav-link">Leaderboards</NuxtLink>
+      <NuxtLink to="/about" class="nav-link">About</NuxtLink>
+      <NuxtLink to="/settings" class="nav-link">Settings</NuxtLink>
+      <NuxtLink to="/account" class="nav-link">{{
+        username || "Guest"
+      }}</NuxtLink>
     </div>
   </nav>
 </template>
