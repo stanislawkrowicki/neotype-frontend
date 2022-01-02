@@ -104,22 +104,19 @@ export default {
   methods: {
     startTest() {
       if (this.words.length == 0) return;
-      this.$refs["typing-input"].focus();
-      if (this.inProgress) return;
-
-      this.testFinished = false;
-      this.tryNumber++;
-      if (this.words.length == 0) this.loadWords();
       this.$nextTick(() => {
-        this.moveCaret();
-        this.inProgress = true;
-        if (this.endTimeout) clearTimeout(this.endTimeout);
-        this.endTimeout = setTimeout(
-          this.endTest,
-          this.timerOptions[this.selectedTime] * 1000
-        );
-        this.lastTime = new Date().getTime();
-        this.antiAFKInterval = setInterval(this.checkAntiAfk, 1000);
+        this.$refs["typing-input"].focus();
+        if (this.inProgress) return;
+
+        this.testFinished = false;
+        this.tryNumber++;
+        if (this.words.length == 0) this.loadWords();
+        this.$nextTick(() => {
+          this.moveCaret();
+          this.inProgress = true;
+          if (this.endTimeout) clearTimeout(this.endTimeout);
+          this.lastTime = new Date().getTime();
+        });
       });
     },
 
@@ -295,6 +292,15 @@ export default {
     },
 
     keyPressed(e) {
+      if (!this.endTimeout)
+        this.endTimeout = setTimeout(
+          this.endTest,
+          this.timerOptions[this.selectedTime] * 1000
+        );
+
+      if (!this.antiAFKInterval)
+        this.antiAFKInterval = setInterval(this.checkAntiAfk, 1000);
+
       this.lastTime = new Date().getTime();
 
       // This is a total mess. There must be a better way, but I can not think of it.
