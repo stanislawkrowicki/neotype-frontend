@@ -16,7 +16,7 @@
       <ul class="menu" ref="hamburger-menu-main">
         <li><NuxtLink to="/">Home</NuxtLink></li>
         <li><NuxtLink to="/#leaderboard">Leaderboards</NuxtLink></li>
-        <li><NuxtLink to="/">About</NuxtLink></li>
+        <li><NuxtLink to="/about">About</NuxtLink></li>
         <li><NuxtLink to="/">Settings</NuxtLink></li>
         <li>
           <NuxtLink to="/account">{{ username }}</NuxtLink>
@@ -27,7 +27,7 @@
     <div class="links">
       <NuxtLink to="/">Home</NuxtLink>
       <NuxtLink to="/#leaderboard">Leaderboards</NuxtLink>
-      <NuxtLink to="/">About</NuxtLink>
+      <NuxtLink to="/about">About</NuxtLink>
       <NuxtLink to="/">Settings</NuxtLink>
       <NuxtLink to="/account">{{ username || "Guest" }}</NuxtLink>
     </div>
